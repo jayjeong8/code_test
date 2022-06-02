@@ -22,7 +22,6 @@ for (let i=1; i<=+input[0]; i++){
     }
     if(order[0]==='top'){
         result.push(stack.length ? stack[stack.length - 1] : -1);
-        continue;
     }
 }
 
