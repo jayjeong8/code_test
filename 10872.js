@@ -1,3 +1,4 @@
+//N은 12 이하
 const input = require('fs').readFileSync('/dev/stdin');
 
 const N = Number(input);
