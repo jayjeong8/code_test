@@ -10,3 +10,12 @@ function factorial (n){
 }
 
 console.log(factorial(N));
+
+
+/* 재귀함수가 약간 더 빠름
+let ans = 1;
+for(let i = 1; i <= N; i++){
+    ans *= i;
+}
+
+console.log(ans)*/
