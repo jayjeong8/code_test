@@ -2,6 +2,7 @@
 //2진수 3자리수가 8단위(2의세제곱)이기 때문에 3자리씩 나눠서 답을 구할 수 있다.(slice(-3)으로 뒤에서부터 잘라보기
 //(parseInt(n,2).toString(8)로 10진수로 변경 후 8진수로 바꿔서 답을 구할 수도 있는데
 //**숫자의 크기가 커서 제대로 동작하지않는다.)
+//1212 참고
 
 const input = require('fs').readFileSync('/dev/stdin','utf8').trim();
 //splice를 위해서 split
