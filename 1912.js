@@ -5,7 +5,7 @@ const input = require('fs').readFileSync('/dev/stdin', 'utf8').split('\n');
 const N = +input[0];
 const nums = input[1].split(' ').map(Number);
 
-//풀이2 - dp,
+//풀이2 - dp,'연속한값'을 구하는 문제이기 때문에 값을 계속해서 누적하고 현재값과 비교한다.
 const dp = [];
 
 for (let i = 0; i < N; i++) {
