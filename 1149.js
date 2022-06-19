@@ -8,22 +8,24 @@
 
 //규칙에 의해 이전 집이 선택한 색은 선택할 수 없다.
 
-const input = require('fs').readFileSync('/dev/stdin', 'utf8').trim().split('\n').slice(1);
-const rgb = input.map(i => i.split(' ').map(Number));
-const leng = rgb.length;
+const input = require('fs').readFileSync('/dev/stdin', 'utf8').trim().split('\n');
+const [N, ...costs] = input;
+const costsArr = costs.map(i => i.split(' ').map(Number));
 
-for (let i = 1; i < leng; i++) {
-    const tmpArr = rgb[i];
+const ans = costsArr.reduce(([a, b, c], [d, e, f]) => {
+return [d + Math.min(b,c), e + Math.min(a,c), f + Math.min(a,b)]
+}, [0, 0, 0]);
+
+console.log(Math.min(...ans));
+
+
+/* 풀이 1
+for (let i = 1; i < N; i++) {
+    const tmpArr = costsArr[i];
     for (let j = 0; j < 3; j++) {
-        if (j === 0) {
-            tmpArr[j] = tmpArr[j] + Math.min(rgb[i - 1][1], rgb[i - 1][2]);
-        } else if (j === 1) {
-            tmpArr[j] = tmpArr[j] + Math.min(rgb[i - 1][0], rgb[i - 1][2]);
-        } else { //j === 2
-            tmpArr[j] = tmpArr[j] + Math.min(rgb[i - 1][0], rgb[i - 1][1]);
-        }
+        tmpArr[j] = tmpArr[j] + Math.min(costsArr[i - 1][(j + 4) % 3], costsArr[i - 1][(j + 5) % 3]);
     }
-    rgb[i] = tmpArr;
+    costsArr[i] = tmpArr;
 }
 
-console.log(Math.min(...rgb[leng-1]));
+console.log(Math.min(...costsArr[N - 1]));*/
