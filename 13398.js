@@ -6,13 +6,30 @@
 const [N, ...nums] = require('fs').readFileSync('/dev/stdin', 'utf8').trim().split('\n');
 const cases = nums[0].split(' ').map(Number);
 
-//memo 1 - 현재 값 + 이전 누적 최대값 (이전 누적값 + 현재값이 현재값보다 크면 합한 값, 아니면 현재값)
-//memo 2 - 현재 값 + 이전 값이 빠진 수라는 가정하에 2개 전 누적값 가져오기
-//memo 3 - 현재 값 + 이전 값의 최고값(memo 1, 2 중)
+//풀이 2, 2가지 memo
+//memo1 - 현재 값 + 이전 누적 최대값 (이전 누적값 + 현재값이 현재값보다 크면 합한 값, 아니면 현재값);
+//memo2 - 이전 memo1 값(현재 값을 뺀 값이라고 가정)과 이전 memo1, memo2 중 최대값 + 현재값
+const memo1 = [cases[0],];
+const memo2 = [cases[0],];
 
-const memo1 = [cases[0],]
-const memo2 = [cases[0],]
-const memo3 = [cases[0],]
+for (let i = 1; i < N; i++) {
+    const pre = i - 1;
+    if (cases[i] >= cases[i] + memo1[pre]) memo1.push(cases[i]); //삭제 없이 누적
+    else memo1.push(cases[i] + memo1[pre]);
+
+    if (memo1[pre] > memo2[pre] + cases[i]) memo2.push(memo1[pre]); //현재 값 삭제 경우
+    else memo2.push(memo2[pre] + cases[i]); //현재 값 삭제 안하는 경우
+}
+console.log(Math.max(...memo1, ...memo2));
+
+/* 풀이 1, 3가지 memo
+//memo1 - 현재 값 + 이전 누적 최대값 (이전 누적값 + 현재값이 현재값보다 크면 합한 값, 아니면 현재값)
+//memo2 - 현재 값 + 이전 값이 빠진 수라는 가정하에 2개 전 누적값 가져오기
+//memo3 - 현재 값 + 이전 값의 최고값(memo 1, 2 중)
+
+const memo1 = [cases[0],];
+const memo2 = [cases[0],];
+const memo3 = [cases[0],];
 
 for (let i = 1; i < N; i++) {
     const pre = i - 1;
@@ -26,6 +43,4 @@ for (let i = 1; i < N; i++) {
 }
 
 console.log(Math.max(...memo1, ...memo2, ...memo3));
-console.log(memo1);
-console.log(memo2);
-console.log(memo3);
+*/
