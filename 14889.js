@@ -9,8 +9,46 @@ const [inputN, ...cases] = require('fs').readFileSync('/dev/stdin', 'utf8').trim
 const N = Number(inputN);
 const status = cases.map(e => e.split(' ').map(Number));
 
+//풀이 3 - 비트마스크 11876KB 464ms
+let ans = 9876543210;
+for (let i = 1; i < (1 << N); i++) { //1을 N만큼 왼쪽으로 이동한 것 (시프트 연산) ex) 100000
+    let count = 0;
+    for (let j = 0; j < N; j++) {
+        if ((i & (1 << j)) === 0) { //1182와는 다르게 0인 경우를 카운트 한다. (상대팀)
+            count++;
+        }
+    }
+    if (count != N / 2) continue; //팀이 반반으로 나뉠때 까지 카운트한다.
 
-//풀이 2 10956KB 240ms (overWrapCheck 사용 안할시 10412KB 268ms)
+    //위 조건문을 통해 팀이 반반이 된 후 넘어오면 각 팀에 팀원 넣어주기
+    const team1 = [];
+    const team2 = [];
+    for (let k = 0; k < N; k++) {
+        if ((i & (1 << k)) === 0) {
+            team1.push(k);
+        } else {
+            team2.push(k);
+        }
+    }
+
+    //각 팀의 능력치를 비교하기
+    let score1 = 0;
+    let score2 = 0;
+    for (let l1 = 0; l1 < N / 2 - 1; l1++) {
+        for (let l2 = l1 + 1; l2 < N / 2; l2++) {
+            score1 += status[team1[l1]][team1[l2]] + status[team1[l2]][team1[l1]];
+            score2 += status[team2[l1]][team2[l2]] + status[team2[l2]][team2[l1]];
+        }
+    }
+    const diff = Math.abs(score1 - score2);
+
+    ans = Math.min(ans, diff);
+}
+
+console.log(ans);
+
+
+/* 풀이 2 10956KB 240ms (overWrapCheck 사용 안할시 10412KB 268ms)
 const teamA = [], teamB = [];
 let answer = 987654321;
 let overWrapCheck = false;
@@ -52,7 +90,7 @@ function teamCompare(arr1, arr2) {
     let score1 = 0;
     let score2 = 0;
 
-    for (let i = 0; i < arr1.length - 1; i++) {
+    for (let i = 0; i < arr1.length - 1; i++) { //첫번째 사람과 두번째 사람, 1-3 1-4... 방식으로 구하고 상대방이 이쪽과 있을 때 능력치 함께 구해서 더하기
         for (let j = i + 1; j < arr1.length; j++) {
             score1 += status[arr1[i]][arr1[j]] + status[arr1[j]][arr1[i]];
             score2 += status[arr2[i]][arr2[j]] + status[arr2[j]][arr2[i]];
@@ -60,6 +98,8 @@ function teamCompare(arr1, arr2) {
     }
     return Math.abs(score1 - score2);
 }
+*/
+
 
 /* 풀이 1 13672KB 600ms
 
