@@ -104,6 +104,8 @@ class Heap {
 
     // 초기에 입력받은 배열을 min heap에 맞게 정렬한다.
     sorted = () => {
+        // 배열의 중간부터 시작한다. 중간노드(자식노드가 있는 노드)부터 검사.
+        //for (let i=Math.floor(this.heap.length/2); i>0; i--)과 같은 공식
         for (let i = this.heap.length>>1; i--;){
             this.heapifyDown(i);
         }
